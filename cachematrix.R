@@ -5,7 +5,7 @@
 ## setinverse, sets the value of the inverse
 ## getinverse, sets the value of the inverse
 
-makeCacheMatrix <- function(x = matrix()) {
+makeCacheMatrix <- function(x) {
        inverted <- NULL
        set <- function(y) {
            x <<- y
@@ -32,7 +32,28 @@ cacheSolve <- function(x, ...) {
         }
         
         data <- x$get()
-        inverted <- solve(data, ...)
+        inverted <- solve(data)
         x$setinverse(inverted)
         inverted
 }
+
+## usage example:
+## > m <- matrix(data = c(1,2,3,4), nrow =2, ncol = 2)
+## > my_cache_matrix <- makeCacheMatrix(m)
+## > my_cache_matrix$get
+##      [,1] [,2]
+## [1,]    1    3
+## [2,]    2    4
+##
+## > cacheSolve(my_cache_matrix)
+##      [1,] [,2]
+## [1,]   -2  1.5
+## [2,]    1 -0.5
+##
+## > cacheSolve(my_cache_matrix)
+## getting cached data
+##      [1,] [,2]
+## [1,]   -2  1.5
+## [2,]    1 -0.5
+##
+## on second cacheSolve call, cached data is retrieved
